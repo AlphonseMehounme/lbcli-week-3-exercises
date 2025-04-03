@@ -3,4 +3,5 @@ transaction="02000000000104b5f641e80e9065f09b12f3e373072518885d1bd1ddd9298e5b984
 inputspubkeys=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vin[].txinwitness[1]')
 pubkeys=$(echo $inputspubkeys | sed 's/ /","/g')
 pubkeys='["'${pubkeys}'"]'
-bitcoin-cli -regtest createmultisig 2 "$pubkeys" "p2sh-segwit"
+multisigaddress=$(bitcoin-cli -regtest createmultisig 1 "$pubkeys" | jq -r '.address')
+echo $multisigaddress
